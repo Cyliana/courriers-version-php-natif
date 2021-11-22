@@ -1,0 +1,171 @@
+:root
+{
+    --serif: "Times New Roman", "times", "serif";
+    --sans-serif: "Arial", "sans-serif";
+    --monospace: "Courier New", "courier", "monospace";
+    --condensed: "Arial Narrow", "Arial", "sans-serif";
+}
+
+*
+{
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+}
+
+html,
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: var(--sans-serif);
+}
+
+header
+{
+    height: 50px;
+    margin: 0;
+    padding: 0 10px;
+    background: rgba(255,0,0,0.25);
+    text-align: center;
+    line-height: 48px;
+    vertical-align: middle;
+}
+
+main
+{
+    margin: 0;
+    padding: 0;
+}
+
+footer
+{
+    height: 50px;
+    margin: 0;
+    padding: 0 10px;
+    background: rgba(0,0,255,0.25);
+    line-height: 48px;
+    vertical-align: middle;
+}
+
+hr
+{
+    height: 1px;
+    background: rgba(0,0,0,0.5);
+}
+
+form
+{
+    margin: auto;
+    width: 100%;
+}
+
+.formForm
+{
+    padding: 10px;
+    max-width: 300px;
+}
+
+.formList
+{
+    padding: 0 ;
+    max-width: 100% ;
+}
+.button
+{
+    display: inline-block;
+    padding: 0 10px;
+    margin: 0 5px;
+    height: 30px;
+    line-height: 26px;
+    color: black;
+    border: 1px solid rgba(0,0,0,0.25);
+    background: rgb(240,240,240);
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.25);
+    font-family: var(--sans-serif);
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+.button:hover
+{
+    box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,0,0,0.5);
+}
+
+.cmd
+{
+    text-align: right;
+}
+
+.cmd .button:first-child
+{
+    margin-left: 0;
+}
+
+.cmd .button:last-child 
+{
+    margin-right: 0;
+}
+
+.error
+{
+    width: 280px;
+    margin: auto;
+    padding: 10px;
+    background: red;
+    color: white;
+    font-family: var(--condensed);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.fieldset
+{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0 0 10px 0;
+}
+
+label
+{
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border: none;
+    font-family: var(--condensed);
+    font-size: 12px;
+}
+
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=tel],
+input[type=email],
+textarea,
+select
+{
+    display: block;
+    margin: 0;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.50);
+    font-family: var(--monospace);
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=number]:focus,
+input[type=tel]:focus,
+input[type=email]:focus,
+textarea:focus,
+select:focus
+{
+    border: 1px solid rgba(0,0,0,0.5);
+    background-color:white;
+    box-shadow: 0px 1px 3px rgba(0,0,0,0.3) inset;
+}
