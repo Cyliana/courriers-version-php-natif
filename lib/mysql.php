@@ -55,10 +55,12 @@ class DB
         $result = $this->connection->prepare($sql);
         $result->execute();
 
-        $this->records = $result->fetchAll();
-
-
-        return($this->records);
+        $c = explode(' ',$sql)[0];
+        if($c == 'SELECT')
+        {
+             $this->records = $result->fetchAll();
+             return($this->records);
+        }
     }
 
     public function fieldsToVars()
@@ -69,6 +71,16 @@ class DB
             array_push($a,"\$$f=\"$v\";");
         }
         return(implode(' ',$a));
+    }
+
+    public function arrayToSql($array)
+    {
+        $a = [];
+        foreach($array as $f=>$v)
+        {
+            array_push($a,"`$f`=\"$v\"");
+        }
+        return(implode(', ',$a));
     }
    
 }

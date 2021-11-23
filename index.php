@@ -16,7 +16,7 @@
     $HTML->header("COURRIERS");
 
     $main = new HTML();
-        $main->form_('formLogin','connecter.php');
+        $main->form_('formLogin','connecter.php','POST',['class'=>'formForm']);
             $main->fieldInput('identifiant', 'identifiant', 'text', '', ['placeholder'=>"Identifiant", 'title'=>"Votre identifiant.", 'required'=>"required"]);
             $main->fieldInput('motdepasse', 'motdepasse', 'password', '', ['placeholder'=>"Mot de passe", 'title'=>"Votre mot de passe.", 'required'=>"required"]);
 

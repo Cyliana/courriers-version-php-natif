@@ -21,11 +21,12 @@
             $header->space();
             $header->a('','utilisateur.php',$_SESSION['identite'],['title'=>"Mes informations."]);
         $HTML->header($header->HTML);
+        $HTML->form_('','','POST',['class'=>'formList']);
 
         // --------------------------------------
         $main = new HTML();
             $db = new DB();
-            $courriers = $db->sql("SELECT `id`,`date_modification`,`date_envoi`,CONCAT(`prenom`,' ',`nom`) AS `destinataire`,`denomination`,CONCAT(`code_postal`,' ',`localite`) AS `lieu`,`status` FROM `list_courriers`;");
+            $courriers = $db->sql("SELECT `id`,`date_modification`,`date_envoi`,CONCAT(`prenom`,' ',`nom`) AS `destinataire`,`denomination`,CONCAT(`code_postal`,' ',`localite`) AS `lieu`,`status` FROM `list_courriers` WHERE `utilisateur_id`= {$_SESSION["uid"]} ORDER BY `date_modification` DESC, `date_envoi` DESC;");
             $main->tableFilled('courriers',['id','Modification','Envoi','Destinataire','Dénomination','Lieu','Status'],$courriers);
         $HTML->main($main->HTML);
 
@@ -34,11 +35,12 @@
 
         $footer->submit('', 'Imprimer', ['title'=>'Imprimer les courriers sélectionnés.', 'class'=>'button']);
         $footer->submit('', 'Télécharger', ['title'=>'Télécharger les courriers sélectionnés.', 'class'=>'button']);
-        $footer->submit('', 'Ajouter', ['title'=>'Créer un nouveau courrier.', 'class'=>'button']);
-        $footer->submit('', 'Modifier', ['title'=>'Modifier les courriers sélectionnés.', 'class'=>'button']);
+        $footer->submit('', 'Ajouter', ['title'=>'Créer un nouveau courrier.', 'class'=>'button','formaction'=>'formulaire.php?cmd=ajouter']);
+        $footer->submit('', 'Modifier', ['title'=>'Modifier les courriers sélectionnés.', 'class'=>'button','formaction'=>'formulaire.php?cmd=modifier']);
         $footer->submit('', 'Supprimer', ['title'=>'Supprimer les courriers sélectionnés.', 'class'=>'button']);
 
         $HTML->footer($footer->HTML,['class'=>'cmd']);
+        $HTML->_form();
     }
 
     $HTML->output();

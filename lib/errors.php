@@ -59,4 +59,7 @@
 
     $errors->messages['liste'][32768] = "Accès interdit !";
     $errors->messages['utilisateur'][32768] = "Accès interdit !";
+
+    $errors->messages['ajouter'][32768] = "Accès interdit !";
+
     

@@ -28,3 +28,13 @@ function extractFields($str="",$delimiter="'")
     }
     return ($mots);
 }
+
+function arrayToVars($array)
+{
+    $a = [];
+    foreach($array as $f=>$v)
+    {
+        array_push($a,"\$$f=\"$v\";");
+    }
+    return(implode(' ',$a));
+}

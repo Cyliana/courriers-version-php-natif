@@ -17,11 +17,13 @@ $HTML = new HTML("Courriers - Connexion");
 
 $uid = $_SESSION['uid'];
 
+$courrier_id = $_POST['courriers'][0];
+
 $cmd = (isset($_GET['cmd'])) ? $_GET['cmd'] : '';
 
 $db = new DB();
 
-$sql = "SELECT `objet`, `offre`,  DATE(date_envoi) AS `date_envoi`, DATE(date_relance) AS `date_relance`, `paragraphe1`, `paragraphe2`, `paragraphe3`, `paragraphe4`, `nosref`, `vosref`, `annonce`, `destinataire_id` FROM courriers WHERE id=$uid;";
+$sql = "SELECT `objet`, `offre`, `date_envoi`, `date_relance`, `paragraphe1`, `paragraphe2`, `paragraphe3`, `paragraphe4`, `nosref`, `vosref`, `annonce`, `destinataire_id` FROM courriers WHERE id=$uid;";
 
 // ----------------------------------------------
 if($cmd == "ajouter")
@@ -43,7 +45,6 @@ if($cmd == "modifier")
 
 // ----------------------------------------------
 $sql = "SELECT id, CONCAT(`prenom`,' ',`nom`) AS identite FROM destinataires WHERE utilisateur_id={$_SESSION['uid']} ORDER BY nom ASC, prenom ASC;";
-
 $destinataires = $db->sql($sql);
 $destinataires_select = [];
 foreach ($destinataires as $record) 
@@ -51,14 +52,30 @@ foreach ($destinataires as $record)
     $destinataires_select[$record[0]] = $record[1];
 }
 
-$HTML->form_('formUtilisateur', 'modifier.php');
-$HTML->fieldSelect('destinataire', 'destinataire', $destinataires_select, $courrier["destinataire_id"],["placeholder"=>"Destinataire","title"=>"Destinataire."]);
+// ----------------------------------------------
+$sql = "SELECT `id`, `libelle` FROM `status`;";
+$status_ = $db->sql($sql);
+$status_select = [];
+foreach ($status_ as $record) 
+{
+    $status_select[$record[1]] = $record[1];
+}
+
+
+$HTML->form_('formUtilisateur', 'modifier.php','POST',["class"=>"formForm"]);
+$HTML->fieldInput('utilisateur_id','utilisateur_id',"hidden",$_SESSION['uid']);
+$HTML->fieldSelect('status', 'status',$status_select,$status_,["placeholder"=>"Status","title"=>"Status"]);
+$HTML->fieldTextarea('annonce','annonce','',["placeholder"=>"Annonce","title"=>"Annonce"]);
+$HTML->fieldSelect('destinataire_id', 'destinataire_id', $destinataires_select, $courrier["destinataire_id"],["placeholder"=>"Destinataire","title"=>"Destinataire."]);
 $HTML->fieldInput('nosref', 'nosref', 'text', $nosref, ["placeholder"=>"Nos reférences","title"=>"Saisissez votre référence."]);
 $HTML->fieldInput('vosref', 'vosref', 'text', $vosref, ["placeholder"=>"Vos références","title"=>"Saisissez la référence de l'utilisateur."]);
 $HTML->fieldInput('objet', 'objet', 'text', $objet, ["placeholder"=>"Objet","title"=>"Objet du message."]);
 $HTML->fieldInput('offre', 'offre', 'text', $offre, ["placeholder"=>"Offre","title"=>"Numéro de l'offre."]);
-$HTML->fieldInput('date_envoi', 'date_envoi', 'date', $date_envoi, ["placeholder"=>"Date de creation","title"=>"Saisissez la date de création."]);
-$HTML->fieldInput('date_relance', 'date_relance', 'date', $date_relance, ["placeholder"=>"Date de relance","title"=>"Saisissez la date de relance."]);
+if($cmd == 'modifier')
+{
+    $HTML->fieldInput('date_envoi', 'date_envoi', 'date', $date_envoi, ["placeholder"=>"Date d'envoi","title"=>"Saisissez la date d'envoi'."]);
+}
+$HTML->fieldInput('date_relance', 'date_relance', 'date', $date_relance, ["placeholder"=>"Date de relance prévue","title"=>"Saisissez la date de relance prévue."]);
 $HTML->fieldTextarea('paragraphe1', 'paragraphe1', $paragraphe1, ["placeholder"=>"Paragraphe 1","title"=>"Saisissez votre premier paragraphe."]);
 $HTML->fieldTextarea('paragraphe2', 'paragraphe2', $paragraphe2, ["placeholder"=>"Paragraphe 2","title"=>"Saisissez votre deuxieme paragraphe."]);
 $HTML->fieldTextarea('paragraphe3', 'paragraphe3', $paragraphe3, ["placeholder"=>"Paragraphe 3","title"=>"Saisissez votre troisieme paragraphe."]);

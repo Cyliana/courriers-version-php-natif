@@ -13,7 +13,8 @@ $HTML = new HTML("Courriers - Connexion");
 
 // ==========================================
 
-if ($errors->check(($page->referer == "index" || $page->referer == "liste"), 32768)); {
+if ($errors->check(($page->referer == "index" || $page->referer == "liste"), 32768))
+{
     $db = new DB();
 
     $utilisateur = $db->sql("SELECT titre,nom,prenom,telephone,email,adresse,code_postal,localite,identifiant FROM utilisateurs WHERE id={$_SESSION['uid']};");
