@@ -13,7 +13,7 @@ $HTML = new HTML("Courriers - Connexion");
 
 // ==========================================
 
-if ($errors->check(($page->referer == "index" || $page->referer == "liste"), 32768))
+if ($errors->check(($page->referer == "index" || $page->referer == "liste" || $page->referer == "destinataire_liste" ), 32768))
 {
     $db = new DB();
 
@@ -29,7 +29,7 @@ if ($errors->check(($page->referer == "index" || $page->referer == "liste"), 327
     $localite       = $utilisateur[0][7];
     $identifiant    = $utilisateur[0][8];
 
-    $HTML->form_('formUtilisateur', 'connecter.php');
+    $HTML->form_('formUtilisateur', 'connecter.php','POST',["class"=>"formForm"]);
 
     $HTML->fieldSelect('titre', 'titre', ["Mme"=>"Madame", "Melle"=>"Mademoiselle", "M."=>"Monsieur"], $titre,["placeholder"=>"Titre"]);
     $HTML->fieldInput('prenom', 'prenom', 'text', $prenom, ["placeholder"=>"Prénom","title"=>"Votre prénom."]);
@@ -44,12 +44,15 @@ if ($errors->check(($page->referer == "index" || $page->referer == "liste"), 327
     $HTML->fieldInput('nouveau_mot_de_passe  ', 'nouveau_mot_de_passe', 'password', '', ["placeholder"=>"Nouveau mot de passe","title"=>"Votre nouveau mot de passe."]);
     $HTML->fieldInput('confirmation_mot_de_passe ', 'confirmation_mot_de_passe', 'password', '', ["placeholder"=>"Confirmation mot de passe","title"=>"Confirmez votre nouveau mot de passe."]);
 
-    if (($page->referer == 'liste') && ($errors->check($session->check(), 32768))) {
+    if (($page->referer == 'liste') && ($errors->check($session->check(), 32768))) 
+    {
         $HTML->submit('', 'Valider', "Valider vos informations pour les modifier.");
         $HTML->a('', "{$page->referer}.php", "Retour", "Retourner à la page de connexion.");
         $HTML->_form();
         $HTML->output();
-    } else {
+    } 
+    else 
+    {
         $HTML->submit('', 'Valider', "Valider vos informations pour vous inscrire.");
         $HTML->a('', "{$page->referer}.php", "Retour", "Retourner à la page de connexion.");
         $HTML->_form();

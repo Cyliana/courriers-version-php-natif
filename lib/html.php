@@ -416,9 +416,9 @@
             $this->thead_();
             $this->tableHeaders($headers);
             $this->_thead();
-            $this->thead_();
+            $this->tbody_();
             $this->tableRows($id,$records,$attributes);
-            $this->_thead();
+            $this->_tbody();
             $this->_table();
         }
 

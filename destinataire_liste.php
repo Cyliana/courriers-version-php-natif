@@ -34,8 +34,8 @@
         // --------------------------------------
         $footer = new HTML();
 
-        $footer->submit('', 'Ajouter', ['title'=>'Créer un nouveau destinataire.', 'class'=>'button', "formaction"=>"destinataire_formulaire.php"]);
-        $footer->submit('', 'Modifier', ['title'=>'Modifier les destinataires sélectionnés.', 'class'=>'button', "formaction"=>"destinataire_formulaire.php"]);
+        $footer->submit('', 'Ajouter', ['title'=>'Créer un nouveau destinataire.', 'class'=>'button', "formaction"=>'destinataire_formulaire.php?cmd=ajouter']);
+        $footer->submit('', 'Modifier', ['title'=>'Modifier les destinataires sélectionnés.', 'class'=>'button', "formaction"=>"destinataire_formulaire.php?cmd=modifier"]);
         $footer->submit('', 'Supprimer', ['title'=>'Supprimer les destinataires sélectionnés.', 'class'=>'button', "formaction"=>"destinataire_supprimer.php"]);
 
         $HTML->footer($footer->HTML,['class'=>'cmd']);

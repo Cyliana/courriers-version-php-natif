@@ -37,8 +37,12 @@ class DB
         $result->execute();
 
         $records = $result->fetchAll();
-
-        return($records);
+        $return = [];
+        foreach($records as $record)
+        {
+            array_push($return, $record[0]);
+        }
+        return($return);
     }
 
     public function sql($sql, $fetch = "NUM")

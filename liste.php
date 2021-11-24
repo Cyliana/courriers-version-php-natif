@@ -20,13 +20,14 @@
             $header->a('','deconnecter.php','Déconnecter',['title'=>"Déconnecter la session et retourner à la page d'identification."]);
             $header->space();
             $header->a('','utilisateur.php',$_SESSION['identite'],['title'=>"Mes informations."]);
+            $header->a('','destinataire_liste.php',' Mes destinataires',['title'=>"Mes destinataires."]);
         $HTML->header($header->HTML);
         $HTML->form_('','','POST',['class'=>'formList']);
 
         // --------------------------------------
         $main = new HTML();
             $db = new DB();
-            $courriers = $db->sql("SELECT `id`,`date_modification`,`date_envoi`,CONCAT(`prenom`,' ',`nom`) AS `destinataire`,`denomination`,CONCAT(`code_postal`,' ',`localite`) AS `lieu`,`status` FROM `list_courriers` WHERE `utilisateur_id`= {$_SESSION["uid"]} ORDER BY `date_modification` DESC, `date_envoi` DESC;");
+            $courriers = $db->sql("SELECT `id`,`date_modification`,`date_envoi`,CONCAT(`prenom`,' ',`nom`) AS `destinataire`,`denomination`,CONCAT(`code_postal`,' ',`localite`) AS `lieu`,`status` FROM `list_courriers` WHERE `utilisateur_id`={$_SESSION["uid"]} AND `status` <> \"Supprimé\" ORDER BY `date_modification` DESC, `date_envoi` DESC;");
             $main->tableFilled('courriers',['id','Modification','Envoi','Destinataire','Dénomination','Lieu','Status'],$courriers);
         $HTML->main($main->HTML);
 

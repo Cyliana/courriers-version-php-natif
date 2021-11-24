@@ -18,12 +18,13 @@ $HTML = new HTML("Courriers - Connexion");
 $uid = $_SESSION['uid'];
 
 $courrier_id = $_POST['courriers'][0];
+$_SESSION["courrier_id"] = $courrier_id;
 
 $cmd = (isset($_GET['cmd'])) ? $_GET['cmd'] : '';
 
 $db = new DB();
 
-$sql = "SELECT `objet`, `offre`, `date_envoi`, `date_relance`, `paragraphe1`, `paragraphe2`, `paragraphe3`, `paragraphe4`, `nosref`, `vosref`, `annonce`, `destinataire_id` FROM courriers WHERE id=$uid;";
+$sql = "SELECT `objet`, `offre`, `date_envoi`, `date_relance`, `paragraphe1`, `paragraphe2`, `paragraphe3`, `paragraphe4`, `nosref`, `vosref`, `annonce`, `destinataire_id`, `status` FROM courriers WHERE id=$courrier_id;";
 
 // ----------------------------------------------
 if($cmd == "ajouter")
@@ -53,7 +54,7 @@ foreach ($destinataires as $record)
 }
 
 // ----------------------------------------------
-$sql = "SELECT `id`, `libelle` FROM `status`;";
+$sql = "SELECT `id`, `libelle` FROM `_status`;";
 $status_ = $db->sql($sql);
 $status_select = [];
 foreach ($status_ as $record) 
@@ -64,8 +65,8 @@ foreach ($status_ as $record)
 
 $HTML->form_('formUtilisateur', 'modifier.php','POST',["class"=>"formForm"]);
 $HTML->fieldInput('utilisateur_id','utilisateur_id',"hidden",$_SESSION['uid']);
-$HTML->fieldSelect('status', 'status',$status_select,$status_,["placeholder"=>"Status","title"=>"Status"]);
-$HTML->fieldTextarea('annonce','annonce','',["placeholder"=>"Annonce","title"=>"Annonce"]);
+$HTML->fieldSelect('status', 'status',$status_select,$status,["placeholder"=>"Status","title"=>"Status"]);
+$HTML->fieldTextarea('annonce','annonce',$annonce ,["placeholder"=>"Annonce","title"=>"Annonce"]);
 $HTML->fieldSelect('destinataire_id', 'destinataire_id', $destinataires_select, $courrier["destinataire_id"],["placeholder"=>"Destinataire","title"=>"Destinataire."]);
 $HTML->fieldInput('nosref', 'nosref', 'text', $nosref, ["placeholder"=>"Nos reférences","title"=>"Saisissez votre référence."]);
 $HTML->fieldInput('vosref', 'vosref', 'text', $vosref, ["placeholder"=>"Vos références","title"=>"Saisissez la référence de l'utilisateur."]);
@@ -84,13 +85,15 @@ $HTML->fieldTextarea('paragraphe4', 'paragraphe4', $paragraphe4, ["placeholder"=
 // ----------------------------------------------
 if($cmd == "ajouter")
 {
-    $HTML->submit('', 'Valider',["title" => "Valider vos informations pour vous inscrire.", "formaction"=>"ajouter.php"]);
+    $HTML->submit('', 'Valider',["title" => "Valider vos informations pour créer votre courrier.", "formaction"=>"ajouter.php"]);
 }
 
 // ----------------------------------------------
 if($cmd == "modifier")
 {
     $HTML->submit('', 'Valider',["title" =>"Valider pour enregistrer vos modifications.", "formaction"=>"modifier.php"]);
+
+    $HTML->submit('', 'Supprimer',["title"=>"Supprimer ce courrier.","formaction"=>"supprimer.php"]);
 }
 
 // ----------------------------------------------

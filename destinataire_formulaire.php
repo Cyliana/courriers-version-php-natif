@@ -11,7 +11,7 @@ require_once('lib/html.php');
 require_once('lib/errors.php');
 
 // === Init =================================
-$HTML = new HTML("Forulaire - Destinataire");
+$HTML = new HTML("Formulaire - Destinataire");
 
 // ==========================================
 
@@ -19,8 +19,8 @@ $cmd = (isset($_GET['cmd'])) ? $_GET['cmd'] : '';
 
 $db = new DB();
 
-$sql = "SELECT `titre`,`prenom`,`nom`,`fonction`,`denomination`,`adresse`, `code_postal`, `localite`, `telephone`, `email`, `commentaire` FROM destinataires WHERE id=1;";
-//"SELECT `titre`,`prenom`,`nom`,`fonction`,`denomination`,`localite` FROM `destinataires` WHERE utilisateur_id = $uid;"
+$sql = "SELECT `titre`,`prenom`,`nom`,`fonction`,`denomination`,`adresse`, `code_postal`, `localite`, `telephone`, `email`, `commentaire` FROM destinataires WHERE id={$_SESSION['uid']};";
+
 // ----------------------------------------------
 if($cmd == "ajouter")
 {
@@ -35,49 +35,41 @@ if($cmd == "ajouter")
 // ----------------------------------------------
 if($cmd == "modifier")
 {
-   
-
-    $courrier = $db->sql($sql, "ASSOC")[0];
+    $destinataires = $db->sql($sql, "ASSOC")[0];
     eval($db->fieldsToVars());
 }
 
 // ----------------------------------------------
 $sql = "SELECT id, CONCAT(`prenom`,' ',`nom`) AS identite FROM destinataires WHERE utilisateur_id={$_SESSION['uid']} ORDER BY nom ASC, prenom ASC;";
 
-$destinataires = $db->sql($sql);
-$destinataires_select = [];
-foreach ($destinataires as $record) 
-{
-    $destinataires_select[$record[0]] = $record[1];
-}
 
-$HTML->form_('formUtilisateur', 'modifier.php');
-$HTML->fieldSelect('destinataire', 'destinataire', $destinataires_select, $courrier["destinataire_id"],["placeholder"=>"Destinataire","title"=>"Destinataire."]);
-$HTML->fieldInput('nosref', 'nosref', 'text', $nosref, ["placeholder"=>"Nos reférences","title"=>"Saisissez votre référence."]);
-$HTML->fieldInput('vosref', 'vosref', 'text', $vosref, ["placeholder"=>"Vos références","title"=>"Saisissez la référence de l'utilisateur."]);
-$HTML->fieldInput('objet', 'objet', 'text', $objet, ["placeholder"=>"Objet","title"=>"Objet du message."]);
-$HTML->fieldInput('offre', 'offre', 'text', $offre, ["placeholder"=>"Offre","title"=>"Numéro de l'offre."]);
-$HTML->fieldInput('date_envoi', 'date_envoi', 'date', $date_envoi, ["placeholder"=>"Date de creation","title"=>"Saisissez la date de création."]);
-$HTML->fieldInput('date_relance', 'date_relance', 'date', $date_relance, ["placeholder"=>"Date de relance","title"=>"Saisissez la date de relance."]);
-$HTML->fieldTextarea('paragraphe1', 'paragraphe1', $paragraphe1, ["placeholder"=>"Paragraphe 1","title"=>"Saisissez votre premier paragraphe."]);
-$HTML->fieldTextarea('paragraphe2', 'paragraphe2', $paragraphe2, ["placeholder"=>"Paragraphe 2","title"=>"Saisissez votre deuxieme paragraphe."]);
-$HTML->fieldTextarea('paragraphe3', 'paragraphe3', $paragraphe3, ["placeholder"=>"Paragraphe 3","title"=>"Saisissez votre troisieme paragraphe."]);
-$HTML->fieldTextarea('paragraphe4', 'paragraphe4', $paragraphe4, ["placeholder"=>"Paragraphe 4","title"=>"Saisissez votre quatrieme paragraphe."]);
+$HTML->form_('formUtilisateur', 'modifier.php','POST', ["class"=>"formForm"]);
+$HTML->fieldSelect('titre', 'titre',["Mme"=>"Madame", "Melle"=>"Mademoiselle", "M."=>"Monsieur"],$titre,["placeholder"=>"Titre"]);
+$HTML->fieldInput('nom', 'nom', 'text', $nom, ["placeholder"=>"Nom","title"=>"Saisissez un nom."]);
+$HTML->fieldInput('prenom', 'prenom', 'text', $prenom, ["placeholder"=>"Prenom","title"=>"Saisissez un prénom."]);
+$HTML->fieldInput('fonction', 'fonction', 'text', $fonction, ["placeholder"=>"Fonction","title"=>"Saisissez la fonction"]);
+$HTML->fieldInput('denomination', 'denomination', 'text', $denomination, ["placeholder"=>"Dénomination","title"=>"Saississez la dénomination de l'entreprise."]);
+$HTML->fieldInput('adresse', 'adresse', 'text', $adresse, ["placeholder"=>"Adresse","title"=>"Saisissez une adresse."]);
+$HTML->fieldInput('localite', 'localite', 'text', $localite, ["placeholder"=>"Ville","title"=>"Saisissez la ville."]);
+$HTML->fieldInput('code postal', 'code postal', 'text', $code_postal, ["placeholder"=>"Code Postal","title"=>"Saisissez un code postal."]);
+$HTML->fieldInput('telephone', 'telephone', 'text', $telephone, ["placeholder"=>"Téléphone","title"=>"Saisissez un numéro de téléphone."]);
+$HTML->fieldInput('email', 'email', 'text', $email, ["placeholder"=>"Email","title"=>"Saisissez un adresse email."]);
+$HTML->fieldTextarea('commentaire', 'commentaire', $commentaire, ["placeholder"=>"Commentaire","title"=>"Saisissez un commentaire."]);
 
 // ----------------------------------------------
 if($cmd == "ajouter")
 {
-    $HTML->submit('', 'Valider',["title" => "Valider vos informations pour vous inscrire.", "formaction"=>"ajouter.php"]);
+    $HTML->submit('', 'Valider',["title" => "Valider pour ajouter un destinataire.", "formaction"=>"destinataire_ajouter.php"]);
 }
 
 // ----------------------------------------------
 if($cmd == "modifier")
 {
-    $HTML->submit('', 'Valider',["title" =>"Valider pour enregistrer vos modifications.", "formaction"=>"modifier.php"]);
+    $HTML->submit('', 'Valider',["title" =>"Valider pour enregistrer les modifications.", "formaction"=>"destinataire_modifier.php"]);
 }
 
 // ----------------------------------------------
-$HTML->a('', "{$page->referer}.php", "Retour",["title" => "Retourner à la page de connexion.", "formaction"=>"liste.php"]);
+$HTML->a('', "{$page->referer}.php", "Retour",["title" => "Retourner à la page précédente.", "formaction"=>"liste.php"]);
 
 $HTML->_form();
 

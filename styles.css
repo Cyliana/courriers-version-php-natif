@@ -26,7 +26,8 @@ header
     height: 50px;
     margin: 0;
     padding: 0 10px;
-    background: rgba(255,0,0,0.25);
+    background: rgba(15, 117, 104, 0.733);
+    color: white;
     text-align: center;
     line-height: 48px;
     vertical-align: middle;
@@ -43,7 +44,8 @@ footer
     height: 50px;
     margin: 0;
     padding: 0 10px;
-    background: rgba(0,0,255,0.25);
+    background: rgba(15, 117, 104, 0.733);
+    color: white;
     line-height: 48px;
     vertical-align: middle;
 }
@@ -51,7 +53,7 @@ footer
 hr
 {
     height: 1px;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.733);
 }
 
 form
@@ -66,11 +68,55 @@ form
     max-width: 300px;
 }
 
+/*****************************************************/
 .formList
 {
     padding: 0 ;
     max-width: 100% ;
 }
+
+.formList table
+{
+    width:100%;
+    border-collapse: collapse;
+}
+
+.formList thead
+{
+    background:rgba(0,0,0,0.30);
+}
+
+.formList thead th
+.formList tbody td
+{
+    padding: 0 5px;
+}
+
+.formList tbody tr:nth-child(odd)
+{
+    background: rgba(0,0,0,0.20);
+}
+
+.formList tbody tr:nth-child(even)
+{
+    background: rgba(0,0,0,0.10);
+}
+
+.formList tr
+{
+    height: 30px;
+}
+
+.formList tbody td
+{
+    border-left: 1px solid rgba(0,0,0,0.50);
+}
+
+.formList tbody td:first-child
+{
+    border-left: none;
+}
+/*****************************************************/
 .button
 {
     display: inline-block;
