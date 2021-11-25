@@ -18,9 +18,9 @@
         $db = new DB();
         $set= $db->arrayToSql($_POST);
 
-        var_dump($_POST);
+        // var_dump($_POST);
 
-        $sql = "UPDATE `destinataires` SET $set ;";
+        $sql = "UPDATE `destinataires` SET $set WHERE `id`=$id;";
 
         $db->sql($sql);
 

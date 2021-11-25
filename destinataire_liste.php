@@ -27,8 +27,10 @@
         // --------------------------------------
         $main = new HTML();
             $db = new DB();
-            $destinataires = $db->sql("SELECT `titre`,`prenom`,`nom`,`fonction`,`denomination`,`localite` FROM `destinataires` WHERE utilisateur_id = $uid;");
-            $main->tableFilled('destinataires',['Titre','Prénom','Nom','Fonction','Dénomination','Localité'],$destinataires);
+            $destinataires = $db->sql("SELECT `id`,`titre`,`prenom`,`nom`,`fonction`,`denomination`,`localite` FROM `destinataires` WHERE utilisateur_id = $uid;");
+
+            $main->tableFilled('destinataires',['id','Titre','Prénom','Nom','Fonction','Dénomination','Localité'],$destinataires);
+
         $HTML->main($main->HTML);
 
         // --------------------------------------
