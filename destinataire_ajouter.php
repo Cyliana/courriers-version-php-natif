@@ -18,7 +18,7 @@
         $db = new DB();
         $set= $db->arrayToSql($_POST);
 
-        //var_dump($_POST);
+        var_dump($_POST);
 
         $sql = "INSERT INTO `destinataires` SET $set , `utilisateur_id` = {$_SESSION['uid']};";
 

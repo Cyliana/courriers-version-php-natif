@@ -19,8 +19,6 @@ $cmd = (isset($_GET['cmd'])) ? $_GET['cmd'] : '';
 
 $db = new DB();
 
-var_dump($_POST);
-
 $sql = "SELECT `id`,`titre`,`prenom`,`nom`,`fonction`,`denomination`,`adresse`, `code_postal`, `localite`, `telephone`, `email`, `commentaire` FROM destinataires WHERE id= {$_POST['destinataires'][0]};";
 
 // ----------------------------------------------
@@ -44,7 +42,10 @@ if($cmd == "modifier")
 // ----------------------------------------------
 
 $HTML->form_('formUtilisateur', 'destinataire_modifier.php','POST', ["class"=>"formForm"]);
-$HTML->fieldInput('id', 'id', 'hidden', $id);
+if($cmd == "modifier")
+{
+    $HTML->fieldInput('id', 'id', 'hidden', $id);
+}
 $HTML->fieldSelect('titre', 'titre',["Mme"=>"Madame", "Melle"=>"Mademoiselle", "M."=>"Monsieur"],$titre,["placeholder"=>"Titre"]);
 $HTML->fieldInput('nom', 'nom', 'text', $nom, ["placeholder"=>"Nom","title"=>"Saisissez un nom."]);
 $HTML->fieldInput('prenom', 'prenom', 'text', $prenom, ["placeholder"=>"Prenom","title"=>"Saisissez un prénom."]);

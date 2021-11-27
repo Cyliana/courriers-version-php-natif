@@ -27,7 +27,7 @@
         // --------------------------------------
         $main = new HTML();
             $db = new DB();
-            $destinataires = $db->sql("SELECT `id`,`titre`,`prenom`,`nom`,`fonction`,`denomination`,`localite` FROM `destinataires` WHERE utilisateur_id = $uid;");
+            $destinataires = $db->sql("SELECT `id`,`titre`,`prenom`,`nom`,`fonction`,`denomination`,`localite` FROM `destinataires` WHERE `utilisateur_id` = $uid AND `status` IS NULL ;");
 
             $main->tableFilled('destinataires',['id','Titre','Prénom','Nom','Fonction','Dénomination','Localité'],$destinataires);
 

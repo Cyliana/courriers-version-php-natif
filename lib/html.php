@@ -205,11 +205,13 @@
         // --------------------------------------
         public function fieldInput($id='', $name='', $type='text', $value='', $attributes=[])
         {
+            error_log("$id =====================================================****");
             eval($this->arrayToStr($attributes,'code'));
             $this->div_('',['class'=>'fieldset']);
             $this->label($name,$placeholder);
             $this->input($id, $name, $type, $value, $attributes);
             $this->_div();
+            error_log("$id ----------------------------------------------------------");
         }
 
         // --------------------------------------

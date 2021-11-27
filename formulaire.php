@@ -16,11 +16,28 @@ $HTML = new HTML("Courriers - Connexion");
 // ==========================================
 
 $uid = $_SESSION['uid'];
-
-$courrier_id = $_POST['courriers'][0];
-$_SESSION["courrier_id"] = $courrier_id;
-
 $cmd = (isset($_GET['cmd'])) ? $_GET['cmd'] : '';
+
+
+$courrier_id="";
+
+if ($cmd == "modifier")
+{
+    if(isset($_POST['courriers']))
+    {
+        if(isset($_POST['courriers'][0]))
+        {
+            $courrier_id = $_POST['courriers'];
+        }
+    }
+
+    if($courrier_id == "")
+    {
+        header("Location: liste.php");
+    }
+
+    $_SESSION["courrier_id"] = $courrier_id;
+}
 
 $db = new DB();
 
@@ -64,10 +81,10 @@ foreach ($status_ as $record)
 
 
 $HTML->form_('formUtilisateur', 'modifier.php','POST',["class"=>"formForm"]);
-$HTML->fieldInput('utilisateur_id','utilisateur_id',"hidden",$_SESSION['uid']);
+$HTML->input('utilisateur_id','utilisateur_id',"hidden",$_SESSION['uid']);
 $HTML->fieldSelect('status', 'status',$status_select,$status,["placeholder"=>"Status","title"=>"Status"]);
 $HTML->fieldTextarea('annonce','annonce',$annonce ,["placeholder"=>"Annonce","title"=>"Annonce"]);
-$HTML->fieldSelect('destinataire_id', 'destinataire_id', $destinataires_select, $courrier["destinataire_id"],["placeholder"=>"Destinataire","title"=>"Destinataire."]);
+$HTML->fieldSelect('destinataire_id', 'destinataire_id', $destinataires_select, $destinataire_id,["destinataire_id"],["placeholder"=>"Destinataire","title"=>"Destinataire."]);
 $HTML->fieldInput('nosref', 'nosref', 'text', $nosref, ["placeholder"=>"Nos reférences","title"=>"Saisissez votre référence."]);
 $HTML->fieldInput('vosref', 'vosref', 'text', $vosref, ["placeholder"=>"Vos références","title"=>"Saisissez la référence de l'utilisateur."]);
 $HTML->fieldInput('objet', 'objet', 'text', $objet, ["placeholder"=>"Objet","title"=>"Objet du message."]);
