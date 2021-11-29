@@ -46,15 +46,15 @@ if ($errors->check(($page->referer == "index" || $page->referer == "liste" || $p
 
     if (($page->referer == 'liste') && ($errors->check($session->check(), 32768))) 
     {
-        $HTML->submit('', 'Valider', "Valider vos informations pour les modifier.");
-        $HTML->a('', "{$page->referer}.php", "Retour", "Retourner à la page de connexion.");
+        $HTML->submit('', 'Valider',["formaction"=>"utilisateur_modifier.php"]);
+        $HTML->a('', "{$page->referer}.php", "Retour");
         $HTML->_form();
         $HTML->output();
     } 
     else 
     {
-        $HTML->submit('', 'Valider', "Valider vos informations pour vous inscrire.");
-        $HTML->a('', "{$page->referer}.php", "Retour", "Retourner à la page de connexion.");
+        $HTML->submit('', 'Valider',["formaction"=>"sinscrire.php"]);
+        $HTML->a('', "{$page->referer}.php", "Retour");
         $HTML->_form();
         $HTML->output();
     }

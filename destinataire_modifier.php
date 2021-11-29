@@ -13,13 +13,15 @@
     
     if($errors->check($page->referer == "destinataire_formulaire",32768) && $errors->check($session->check(),32768))
     {
-        eval(arrayToVars($_POST));  
-       
+
         $db = new DB();
+
+        eval(arrayToVars($_POST));  
         $set= $db->arrayToSql($_POST);
 
         // var_dump($_POST);
 
+        
         $sql = "UPDATE `destinataires` SET $set WHERE `id`=$id;";
 
         $db->sql($sql);

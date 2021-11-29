@@ -58,7 +58,9 @@
     $errors->messages['connecter'][16] = "Identifiant ou mot de passe incorrect.";
 
     $errors->messages['liste'][32768] = "Accès interdit !";
+
     $errors->messages['utilisateur'][32768] = "Accès interdit !";
+    $errors->messages['utilisateur_modifier'][32768] = "Accès interdit !";
 
     $errors->messages['ajouter'][32768] = "Accès interdit !";
 

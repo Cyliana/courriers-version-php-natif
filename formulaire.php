@@ -80,7 +80,7 @@ foreach ($status_ as $record)
 }
 
 
-$HTML->form_('formUtilisateur', 'modifier.php','POST',["class"=>"formForm"]);
+$HTML->form_('formCourrier', '','POST',["class"=>"formForm"]);
 $HTML->input('utilisateur_id','utilisateur_id',"hidden",$_SESSION['uid']);
 $HTML->fieldSelect('status', 'status',$status_select,$status,["placeholder"=>"Status","title"=>"Status"]);
 $HTML->fieldTextarea('annonce','annonce',$annonce ,["placeholder"=>"Annonce","title"=>"Annonce"]);

@@ -1,1 +1,54 @@
-<h2>modifier l'utilisateur</h2>
+<?php
+    error_log("utilisateur_modifier.php");
+
+    // === requires =============================
+    require_once('lib/errors.php');
+    require_once('lib/common.php');
+    require_once('lib/mysql.php');
+    require_once('lib/page.php');
+    require_once('lib/session.php');
+    require_once('lib/html.php');
+    
+    
+    // ==========================================
+
+    if($errors->check($page->referer == "utilisateur",32768) && $errors->check($session->check(),32768))
+    {
+        $db = new DB();
+
+        if(($_POST['mot_de_passe'] != '') && ($_POST['nouveau_mot_de_passe'] != '') && $_POST['confirmation_mot_de_passe'] != '')
+        {
+            if(($_POST['nouveau_mot_de_passe']) == ($_POST['confirmation_mot_de_passe']))
+            {
+                $sql = "SELECT `mot_de_passe` FROM `utilisateurs` WHERE id={$_SESSION['uid']};";
+
+                $mdp = $db->sql($sql);
+
+                if($_POST['mot_de_passe'] == $mdp )
+                {
+                    $_POST['mot_de_passe'] = $_POST['nouveau_mot_de_passe'];
+                    
+                    array_search('mot_de_passe',$_POST);
+                    unset($_POST['mot_de_passe']);
+
+                    array_search('confirmation_mot_de_passe',$_POST);
+                    unset($_POST['confirmation_mot_de_passe']);
+
+                    print_r($_POST['confirmation_mot_de_passe']);
+                }
+            }
+        }
+
+
+        error_log("test2");
+
+        eval(arrayToVars($_POST));   // eval exécute les chaines de caractères de array to vars en code.(en variables)
+
+        $set= $db->arrayToSql($_POST);
+
+        $sql = "UPDATE `utilisateurs` SET $set WHERE id={$_SESSION['uid']};";
+
+        // $db->sql($sql);
+
+        //header("Location: utilisateur.php");
+    }
