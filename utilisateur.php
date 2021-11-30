@@ -13,8 +13,19 @@ $HTML = new HTML("Courriers - Connexion");
 
 // ==========================================
 
+
+
 if ($errors->check(($page->referer == "index" || $page->referer == "liste" || $page->referer == "destinataire_liste" ), 32768))
 {
+    // --------------------------------------
+        $header = new HTML();
+            $header->a('','deconnecter.php','Déconnecter',['title'=>"Déconnecter la session et retourner à la page d'identification."]);
+            $header->space();
+            $header->a('','utilisateur.php',$_SESSION['identite'],['title'=>"Mes informations."]);
+            $header->a('','destinataire_liste.php',' Mes destinataires',['title'=>"Mes destinataires."]);
+        $HTML->header($header->HTML);
+    // --------------------------------------
+
     $db = new DB();
 
     $utilisateur = $db->sql("SELECT titre,nom,prenom,telephone,email,adresse,code_postal,localite,identifiant FROM utilisateurs WHERE id={$_SESSION['uid']};");
@@ -48,6 +59,7 @@ if ($errors->check(($page->referer == "index" || $page->referer == "liste" || $p
     {
         $HTML->submit('', 'Valider',["formaction"=>"utilisateur_modifier.php"]);
         $HTML->a('', "{$page->referer}.php", "Retour");
+        $HTML->submit('',"Se désinscrire",["formaction"=>"utilisateur_desinscription"]);
         $HTML->_form();
         $HTML->output();
     } 

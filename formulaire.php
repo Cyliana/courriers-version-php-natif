@@ -15,6 +15,15 @@ $HTML = new HTML("Courriers - Connexion");
 
 // ==========================================
 
+// --------------------------------------
+$header = new HTML();
+    $header->a('','deconnecter.php','Déconnecter',['title'=>"Déconnecter la session et retourner à la page d'identification."]);
+    $header->space();
+    $header->a('','utilisateur.php',$_SESSION['identite'],['title'=>"Mes informations."]);
+    $header->a('','destinataire_liste.php',' Mes destinataires',['title'=>"Mes destinataires."]);
+$HTML->header($header->HTML);
+// --------------------------------------
+
 $uid = $_SESSION['uid'];
 $cmd = (isset($_GET['cmd'])) ? $_GET['cmd'] : '';
 
@@ -39,9 +48,11 @@ if ($cmd == "modifier")
     $_SESSION["courrier_id"] = $courrier_id;
 }
 
+//var_dump($courrier_id[0]);
+
 $db = new DB();
 
-$sql = "SELECT `objet`, `offre`, `date_envoi`, `date_relance`, `paragraphe1`, `paragraphe2`, `paragraphe3`, `paragraphe4`, `nosref`, `vosref`, `annonce`, `destinataire_id`, `status` FROM courriers WHERE id=$courrier_id;";
+$sql = "SELECT `objet`, `offre`, `date_envoi`, `date_relance`, `paragraphe1`, `paragraphe2`, `paragraphe3`, `paragraphe4`, `nosref`, `vosref`, `annonce`, `destinataire_id`, `status` FROM courriers WHERE id= {$courrier_id[0]};";
 
 // ----------------------------------------------
 if($cmd == "ajouter")
@@ -84,7 +95,7 @@ $HTML->form_('formCourrier', '','POST',["class"=>"formForm"]);
 $HTML->input('utilisateur_id','utilisateur_id',"hidden",$_SESSION['uid']);
 $HTML->fieldSelect('status', 'status',$status_select,$status,["placeholder"=>"Status","title"=>"Status"]);
 $HTML->fieldTextarea('annonce','annonce',$annonce ,["placeholder"=>"Annonce","title"=>"Annonce"]);
-$HTML->fieldSelect('destinataire_id', 'destinataire_id', $destinataires_select, ["destinataire_id"],["placeholder"=>"Destinataire","title"=>"Destinataire."]);
+$HTML->fieldSelect('destinataire_id', 'destinataire_id', $destinataires_select,$destinataire_id,["placeholder"=>"Destinataire","title"=>"Destinataire."]);
 $HTML->fieldInput('nosref', 'nosref', 'text', $nosref, ["placeholder"=>"Nos reférences","title"=>"Saisissez votre référence."]);
 $HTML->fieldInput('vosref', 'vosref', 'text', $vosref, ["placeholder"=>"Vos références","title"=>"Saisissez la référence de l'utilisateur."]);
 $HTML->fieldInput('objet', 'objet', 'text', $objet, ["placeholder"=>"Objet","title"=>"Objet du message."]);

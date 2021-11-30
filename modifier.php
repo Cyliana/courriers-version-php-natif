@@ -15,6 +15,7 @@
         $date = date('Y-m-d');
 
         eval(arrayToVars($_POST));  
+
         $_POST["date_envoi"] = ($_POST["date_envoi"]=="") ? "NULL" : $_POST["date_envoi"];
         $_POST["date_relance"] = ($_POST["date_relance"]=="") ? "NULL" : $_POST["date_relance"];
         
@@ -26,6 +27,5 @@
         $db->sql($sql);
 
         header("Location: liste.php");
-
 
     }

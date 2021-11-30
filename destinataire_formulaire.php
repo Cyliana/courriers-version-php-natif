@@ -15,6 +15,18 @@ $HTML = new HTML("Formulaire - Destinataire");
 
 // ==========================================
 
+if($errors->check($session->check(),32768))
+{
+    $uid = $_SESSION["uid"];
+    // --------------------------------------
+    $header = new HTML();
+        $header->a('','deconnecter.php','Déconnecter',['title'=>"Déconnecter la session et retourner à la page d'identification."]);
+        $header->space();
+        $header->a('','utilisateur.php',$_SESSION['identite'],['title'=>"Mes informations."]);
+    $HTML->header($header->HTML);
+    // --------------------------------------
+}
+
 $cmd = (isset($_GET['cmd'])) ? $_GET['cmd'] : '';
 
 $db = new DB();

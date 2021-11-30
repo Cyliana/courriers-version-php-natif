@@ -15,9 +15,6 @@
     error_log("test 1 =========================================");
     if($errors->check($page->referer == "utilisateur",32768) && $errors->check($session->check(),32768))
     {
-
-        error_log("test 2 ***************************************");
-
         $db = new DB();
 
         if($_POST['mot_de_passe'] != '')
@@ -34,8 +31,6 @@
 
                     if($_POST['mot_de_passe'] == $mdp[0][0])
                     {   
-                        error_log("test 3 ****************=====****=====*****====***");
-
                         $_POST['mot_de_passe'] = $_POST['nouveau_mot_de_passe'];
                     }
                 }
