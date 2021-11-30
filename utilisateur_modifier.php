@@ -12,43 +12,51 @@
     
     // ==========================================
 
+    error_log("test 1 =========================================");
     if($errors->check($page->referer == "utilisateur",32768) && $errors->check($session->check(),32768))
     {
+
+        error_log("test 2 ***************************************");
+
         $db = new DB();
 
-        if(($_POST['mot_de_passe'] != '') && ($_POST['nouveau_mot_de_passe'] != '') && $_POST['confirmation_mot_de_passe'] != '')
+        if($_POST['mot_de_passe'] != '')
         {
-            if(($_POST['nouveau_mot_de_passe']) == ($_POST['confirmation_mot_de_passe']))
+            if(($_POST['nouveau_mot_de_passe'] != '') && $_POST['confirmation_mot_de_passe'] != '')        
             {
-                $sql = "SELECT `mot_de_passe` FROM `utilisateurs` WHERE id={$_SESSION['uid']};";
-
-                $mdp = $db->sql($sql);
-
-                if($_POST['mot_de_passe'] == $mdp )
+                if(($_POST['nouveau_mot_de_passe']) == ($_POST['confirmation_mot_de_passe']))
                 {
-                    $_POST['mot_de_passe'] = $_POST['nouveau_mot_de_passe'];
+                    $sql = "SELECT `mot_de_passe` FROM `utilisateurs` WHERE id={$_SESSION['uid']};";
                     
-                    array_search('mot_de_passe',$_POST);
-                    unset($_POST['mot_de_passe']);
+                    $mdp = $db->sql($sql);
 
-                    array_search('confirmation_mot_de_passe',$_POST);
-                    unset($_POST['confirmation_mot_de_passe']);
+                    //print_r($mdp[0][0]);
 
-                    print_r($_POST['confirmation_mot_de_passe']);
+                    if($_POST['mot_de_passe'] == $mdp[0][0])
+                    {   
+                        error_log("test 3 ****************=====****=====*****====***");
+
+                        $_POST['mot_de_passe'] = $_POST['nouveau_mot_de_passe'];
+                    }
                 }
             }
         }
+        if($_POST['mot_de_passe'] == "")
+        {
+            unset($_POST['mot_de_passe']);
+        }
+        
+        unset($_POST['nouveau_mot_de_passe']);
+        unset($_POST['confirmation_mot_de_passe']);
 
-
-        error_log("test2");
-
-        eval(arrayToVars($_POST));   // eval exécute les chaines de caractères de array to vars en code.(en variables)
+        eval(arrayToVars($_POST));   // eval exécute les chaines de caractères de arrayToVars en code.(en variables)
 
         $set= $db->arrayToSql($_POST);
 
+        //print($set);
+    
         $sql = "UPDATE `utilisateurs` SET $set WHERE id={$_SESSION['uid']};";
+        $db->sql($sql);
 
-        // $db->sql($sql);
-
-        //header("Location: utilisateur.php");
+        header("Location: liste.php");
     }

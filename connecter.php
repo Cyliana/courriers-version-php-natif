@@ -60,7 +60,7 @@
         error_log("\$errors->text = {$errors->text};");
 
         $HTML->innerHTML("Erreur {$errors->code} :\n{$errors->text}");
-//        $HTML->output();
+        $HTML->output();
 
         header("Location: index.php?error={$errors->code}");
     }
