@@ -84,7 +84,7 @@ $HTML->form_('formCourrier', '','POST',["class"=>"formForm"]);
 $HTML->input('utilisateur_id','utilisateur_id',"hidden",$_SESSION['uid']);
 $HTML->fieldSelect('status', 'status',$status_select,$status,["placeholder"=>"Status","title"=>"Status"]);
 $HTML->fieldTextarea('annonce','annonce',$annonce ,["placeholder"=>"Annonce","title"=>"Annonce"]);
-$HTML->fieldSelect('destinataire_id', 'destinataire_id', $destinataires_select, $destinataire_id,["destinataire_id"],["placeholder"=>"Destinataire","title"=>"Destinataire."]);
+$HTML->fieldSelect('destinataire_id', 'destinataire_id', $destinataires_select, ["destinataire_id"],["placeholder"=>"Destinataire","title"=>"Destinataire."]);
 $HTML->fieldInput('nosref', 'nosref', 'text', $nosref, ["placeholder"=>"Nos reférences","title"=>"Saisissez votre référence."]);
 $HTML->fieldInput('vosref', 'vosref', 'text', $vosref, ["placeholder"=>"Vos références","title"=>"Saisissez la référence de l'utilisateur."]);
 $HTML->fieldInput('objet', 'objet', 'text', $objet, ["placeholder"=>"Objet","title"=>"Objet du message."]);
