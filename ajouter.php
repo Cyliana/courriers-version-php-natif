@@ -18,9 +18,14 @@
         $_POST["date_relance"] = ($_POST["date_relance"]=="") ? "NULL" : $_POST["date_relance"];
        
         $db = new DB();
+        
+        $_POST["date_creation"]=$date;
+        $_POST["date_modification"]=$date;
+        
         $set= $db->arrayToSql($_POST);
-        $set = str_replace("\"NULL\"","NULL",$set);
-        $sql= "INSERT INTO `courriers` SET $set , `date_creation` = \"$date\", `date_modification`= \"$date\";";
+
+        //$set = str_replace("\"NULL\"","NULL",$set);
+        $sql= "INSERT INTO `courriers` SET $set , `date_creation` =?, `date_modification`=?;";
 
         $db->sql($sql);
 

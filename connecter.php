@@ -34,7 +34,9 @@
         error_log("\$errors->code = {$errors->code};");
         $db = new DB();
 
-        $utilisateur = $db->sql("SELECT `id`,`prenom`,`nom` FROM `utilisateurs` WHERE `identifiant`=\"$identifiant\" AND `mot_de_passe`=\"$motdepasse\";");
+        $sql = "SELECT `id`,`prenom`,`nom` FROM `utilisateurs` WHERE `identifiant`=? AND `mot_de_passe`=?;";
+        
+        $utilisateur = $db->sql($sql,[$identifiant,$motdepasse],[2,2]);
     
         error_log(count($utilisateur));
         // --------------------------------------

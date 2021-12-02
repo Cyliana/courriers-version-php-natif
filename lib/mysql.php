@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Validator\Constraints\Length;
+
 define('DBHOST', 'mysql.xiong.fr');
 define('DBPORT', '3306');
 define('DBNAME', 'courriers');
@@ -45,7 +47,7 @@ class DB
         return($return);
     }
 
-    public function sql($sql, $fetch = "NUM")
+    public function sql($sql, $values=[], $types=[], $fetch = "NUM")
     {
         if ($fetch == "NUM") 
         {
@@ -56,7 +58,20 @@ class DB
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         }
 
+        $PARAMS=[];
+        array_push($PARAMS, PDO::PARAM_NULL);
+        array_push($PARAMS, PDO::PARAM_INT);
+        array_push($PARAMS, PDO::PARAM_STR);
+
         $result = $this->connection->prepare($sql);
+
+        for($i = 0 ; $i<count($values);$i++)
+        {
+            $v = $values[$i];
+            $t = $types[$i];
+
+            $result->bindValue($i+1,$v,$PARAMS[$t]);
+        }
         $result->execute();
 
         $c = explode(' ',$sql)[0];
@@ -82,7 +97,7 @@ class DB
         $a = [];
         foreach($array as $f=>$v)
         {
-            array_push($a,"`$f`=\"$v\"");
+            array_push($a,"`$f`=?");
         }
         return(implode(', ',$a));
     }
