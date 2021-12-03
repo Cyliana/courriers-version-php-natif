@@ -57,6 +57,35 @@ class DB
         {
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         }
+        //---------------------------------------
+        $valuesTypes=[];
+
+        foreach ($types as $k=>$row) 
+        {
+            $field = $row[0];
+            $type = $row[1];
+            $null = $row[2];
+
+            if($null == "YES")
+            {
+                $valuesTypes[$k]= 0;
+            }
+            else
+            {
+                $refs=['timestamp'=>2,'datetime'=>2,'varchar'=>2,'text'=>2,'date'=>2,'year'=>2,'json'=>2,'int'=>1];
+
+                foreach ($refs as $key =>$ref) 
+                {
+                    if(strpos($type,$key)!== false)
+                    {
+                        $valuesTypes[$k] = $ref;
+                        break;
+                    }
+                }
+            }    
+        }
+
+        //---------------------------------------
 
         $PARAMS=[];
         array_push($PARAMS, PDO::PARAM_NULL);
@@ -65,17 +94,22 @@ class DB
 
         $result = $this->connection->prepare($sql);
 
-        for($i = 0 ; $i<count($values);$i++)
+        $i = 0;
+        foreach($values as $v)
         {
-            $v = $values[$i];
-            $t = $types[$i];
-
+            $t = $valuesTypes[$i];
             $result->bindValue($i+1,$v,$PARAMS[$t]);
+            $i++;
         }
         $result->execute();
 
         $c = explode(' ',$sql)[0];
         if($c == 'SELECT')
+        {
+            $this->records = $result->fetchAll();
+            return($this->records);
+        }
+        if($c == 'SHOW')
         {
              $this->records = $result->fetchAll();
              return($this->records);

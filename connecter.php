@@ -9,23 +9,26 @@
     require_once('lib/errors.php');
 
     // === Init =================================
-    $HTML = new HTML("Courriers - Connexion");
+        $HTML = new HTML("Courriers - Connexion");
 
     // ==========================================
 
     $identifiant = "";
     $motdepasse = "";
 
-    if($errors->check(isset($_POST['identifiant']),1))
+    if($errors->check(count($_POST)== 2,6))
     {
-        $identifiant = $_POST['identifiant'];
-        $errors->check($identifiant != "",2);
-    }
+        if($errors->check(isset($_POST['identifiant']),1))
+        {
+            $identifiant = $_POST['identifiant'];
+            $errors->check($identifiant != "",2);
+        }
 
-    if ($errors->check($_POST['motdepasse'],4))
-    {
-        $motdepasse = $_POST['motdepasse'];
-        $errors->check($motdepasse != "",8);
+        if ($errors->check($_POST['motdepasse'],4))
+        {
+            $motdepasse = $_POST['motdepasse'];
+            $errors->check($motdepasse != "",8);
+        }
     }
 
     // ==========================================
@@ -34,16 +37,21 @@
         error_log("\$errors->code = {$errors->code};");
         $db = new DB();
 
-        $sql = "SELECT `id`,`prenom`,`nom` FROM `utilisateurs` WHERE `identifiant`=? AND `mot_de_passe`=?;";
+        $sql = "SHOW COLUMNS FROM `_connecter_utilisateur`;";
+        $types=$db->sql($sql);
+
+        $sql = "SELECT * FROM `_connecter_utilisateur` WHERE `identifiant`=? AND `mot_de_passe`=?;";
+        $utilisateur = $db->sql($sql,$_POST,$types);
         
-        $utilisateur = $db->sql($sql,[$identifiant,$motdepasse],[2,2]);
-    
+
         error_log(count($utilisateur));
         // --------------------------------------
         if($errors->check(count($utilisateur) == 1,16))
         {
             error_log("\$errors->code = {$errors->code};");
 
+            $sql = "SELECT `id`,`nom`,`prenom` FROM `utilisateurs` WHERE `identifiant` = ? AND `mot_de_passe` = ?;";
+            $utilisateur = $db->sql($sql,$_POST, $types);
             $uid = $utilisateur[0][0];
             $session->open($uid);
             $_SESSION['identite'] = $utilisateur[0][1].' '.$utilisateur[0][2];

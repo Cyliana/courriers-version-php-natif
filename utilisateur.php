@@ -28,7 +28,7 @@ if ($errors->check(($page->referer == "index" || $page->referer == "liste" || $p
 
     $db = new DB();
 
-    $utilisateur = $db->sql("SELECT titre,nom,prenom,telephone,email,adresse,code_postal,localite,identifiant FROM utilisateurs WHERE id={$_SESSION['uid']};");
+    $utilisateur = $db->sql("SELECT `titre`,`nom`,`prenom`,`telephone`,`email`,`adresse`,`code_postal`,`localite`,`identifiant` FROM `utilisateurs` WHERE `id`={$_SESSION['uid']};");
 
     $titre          = $utilisateur[0][0];
     $nom            = $utilisateur[0][1];

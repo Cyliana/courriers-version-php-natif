@@ -27,7 +27,8 @@
         // --------------------------------------
         $main = new HTML();
             $db = new DB();
-            $courriers = $db->sql("SELECT `id`,`date_modification`,`date_envoi`,CONCAT(`prenom`,' ',`nom`) AS `destinataire`,`denomination`,CONCAT(`code_postal`,' ',`localite`) AS `lieu`,`status` FROM `list_courriers` WHERE `utilisateur_id`={$_SESSION["uid"]} AND `status` <> \"Supprimé\" ORDER BY `date_modification` DESC, `date_envoi` DESC;");
+            $sql = "SELECT `id`,`date_modification`,`date_envoi`,CONCAT(`prenom`,' ',`nom`) AS `destinataire`,`denomination`,CONCAT(`code_postal`,' ',`localite`) AS `lieu`,`status` FROM `list_courriers` WHERE `utilisateur_id`={$_SESSION["uid"]} AND `status` <> \"Supprimé\" ORDER BY `date_modification` DESC, `date_envoi` DESC;"; 
+            $courriers = $db->sql($sql,$_POST,$types);
             $main->tableFilled('courriers',['id','Modification','Envoi','Destinataire','Dénomination','Lieu','Status'],$courriers);
         $HTML->main($main->HTML);
 
